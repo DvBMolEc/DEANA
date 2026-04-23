@@ -1,87 +1,84 @@
+# DEANA
 
-Find Decona in our paper:
-### The Long and the Short of It: Nanopore-Based eDNA Metabarcoding of Marine Vertebrates Works; Sensitivity and Species-Level Assignment Depend on Amplicon Lengths 
+This pipeline is intended as decona 2.0, where ONT sequencing data is transformed into ASVs, instead of clustered into concensus sequences. The main functions are 1) demultiplexing, 2) trimming, 3) merging and 4) identifying species
 
+**To Do Version 0.1**
+- Update pipeline functions
+- Silence unnecessary and redundant lines in decona script
+- Create wiki
+- Update .README
+- Create example .config file
 
-Karlijn Doorenspleet, Lara Jansen, Saskia Oosterbroek, Pauline Kamermans, Oscar Bos, Erik Wurz, Albertinka Murk, Reindert Nijland
-
-
-Find the paper here: DOI <a href="http://doi.org/10.1111/1755-0998.14079">10.1111/1755-0998.14079</a> 
-
-# Decona [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/SaskiaO13.svg?style=social&label=Follow%20%40SaskiaO13)](https://twitter.com/SaskiaO13)
-
-**Version 1.4**
-- Installation process edited
-- Primer trimming with **Cutadapt** added
-- Basic OTU calling function added (across barcodes if applicable)
-- **-i** changed to input path
-- Compatiblity issue with Dorado generated fastq's solved
-- Bugs fixed
-
-##  From demultiplexing to consensus for Nanopore amplicon data
-Decona can process multiple samples in one line of code:
+##  From sequencing to species identification for Nanopore amplicon data
+DEANA can process multiple samples in one line of code:
 - Mixed samples containing multiple species from bulk and eDNA
 - Mixed amplicons in one barcode
 - Multiplexed barcodes
 - Multiple samples in one run
-- Outputs (Medaka polished) consensus sequences
+- Outputs ASVs, corresponding read counts and corresponding species identifications
 
-<img src="https://raw.githubusercontent.com/Saskia-Oosterbroek/decona/master/Decona_1-4_overview.JPG" width="600" />
-
-## Presentation at DNAQUA International Conference
-[![](http://img.youtube.com/vi/e3mw2UuAdC8/0.jpg)](http://www.youtube.com/watch?v=e3mw2UuAdC8 "")
-
-- 00:00 general introduction
-- 02:20 Decona's core principles
-- 04:40 Examples from our own research
-  - 2000 bp fish mitochondrial marker
-  - Contaminated sponge COI
-  - Within species variation: porpoise eDNA from seawater 3.5 kb mitochondrial marker
+<img src="https://github.com/DvBMolEc/DEANA/blob/master/FlowChart_DEANA_20260423.png" width="600" />
 
 ## Installation
-Decona is only supported for use with Linux, the Ubuntu command line app for Windows also works but is recommended only for use with smaller datasets.
-
-Decona is sensitive to installation version of dependencies. To keep things simple the installer will create a virtual Conda environment for you containing everything you need.
-
-Download the latest release (version 1.3) or clone the repository (version 1.4)
-
-```sh
-$ tar xjvf decona-0.1.3.tar.bz2
-$ ./decona/bin/install.sh
-$ conda activate decona
-```
-
-If installation fails you can manually create the environment:
-```sh
-conda create medaka=1.11.3 python=3.8.10 cutadapt=4.8 racon=1.4.20 NanoFilt=2.8.0 cd-hit=4.8.1 blast=2.15.0 --channel conda-forge --channel bioconda --name decona1.4
-```
-This will create the correct environment but you have to copy the “decona” file(script) to the environment bin (~/miniconda3/envs/decona1.4/bin) manually. If you activate the environment 
-```conda activate decona1.4```  you should be able to run the program calling ```decona -h ``` which should give the help section.
-
-It is possible you will get an accessibility warning in that case you can grant access to the file by running ```chmod +x ~/miniconda3/envs/decona1.4/bin/decona ```
-
+DEANA is only supported for use with Linux, the Ubuntu command line app for Windows also works but is recommended only for use with smaller datasets.
+DEANA is sensitive to installation version of dependencies. 
 
 ## Dependencies
 
-Decona runs on all your favourite sequence processing tools:
+DEANA works with the following sequence processing tools:
 | Tool | version |  function |
 | ------ | ------ | ------ |
-| Nanofilt | 2.8.0 | Filter raw reads on quality and read length |
-| Cutadapt | 4.8 | (Optionally) trim primer sequences |
-| CD-hit | 4.8.1 | Cluster reads from samples containing multiple species / amplicons |
-| Minimap2 | 2.17 | Align clustered reads |
-| Racon | 1.4.13 | Make consensus sequences |
-| Medaka | 1.11.3 | (Optionally) polish consensus sequences |
-| Blast | 2.15.0 | (Optionally) blast consensus sequences |
+| dorado | 1.3.0 | Demulitplex ONT sequencing data |
+| dorado | 1.3.0 | Trim adapters and barcodes |
+| Cutadapt | X.X | Trim primer sequences |
+| NanoFilt | X.X | Filter reads based on Q-score |
+| CD-hit | X.X.X | Merge ASVs within samples |
+| Blast | X.X.X | Blast ASVs |
 
 
 ## Usage
-**Decona works on all fastq files in your working directory.** It is a good idea to have an empty directory with just the files you want to run. A results folder will appear in your working directory after a successful run.
+**DEANA works on basecalled .bam files in your working directory.** It is a good idea to have an empty directory with just the files you want to run. A Demux folder will be made for demultiplexed data. 
+DEANA requires a .config file in your working directory which contains:
+DemuxKit: Kit name provided to dorado --kit-name
+CustomBarcodesSequences: In case of custom barcode sequences, .fa file provided to dorado --barcode-sequences [.fa file] [optional]
+CustomBarcodeArrangement: In case of custom barcode sequences, .toml file provided to dorado --barcode-arrangement [.toml file] [optional]
+FW: Sequence forward primer [ACTGWSMKRYBDHVN]
+RV: Sequence reverse primer REVERSE COMPLIMENT [ACTGWSMKRYBDHVN]
+ErrorRate: Error rate used for cutadapt [numerical between 0 and 1]
+OverlapFWPrimer: Minimum nt found by cutadapt in FW primer [numerical]
+OverlapRVPrimer: Minimum nt found by cutadapt in RV primer [numerical]
+Q: minimum Q-score [integer]
+Dorado: /path/dorado/bin/
+Cutadapt: /path/cutadapt/bin/
+CDHIT: /path/cdhit/bin/
+BLAST_DB: /path/BLAST_database/name
+BLAST: /path/BLAST/bin/
+TargetTaxa: Flag to only BLAST for target taxa [integer] (requires BLAST version 2.15+)
+THREADS: allow multithreading to this number of threads [integer, default = 4]
+
+
 Example
 ```sh
-$ decona -d -l 800 -m 2100 -q 10 -c 0.95 -n 100 -M
+$ deana -i input_folder/input_file.bam -c /path/configfile.config
 ```
-Will: Demultiplex, filter for read length 800-2100 bp and quality score 10, cluster reads at 95% ID, make consensuses of clusters larger than 100 sequences, polish with Medaka.
+Where the .config file looks like the example:
+DemuxKit: MiFish_9bp_tags
+CustomBarcodesSequences: /path/MiFish_9bp_tags.fa
+CustomBarcodeArrangement: /path/MiFish_9bp_tags.toml
+FW: GTYGGTAAAWCTCGTGCCAGC
+RV: CAAACTRGGATTAGATACCCCACTAT
+ErrorRate: 0.1
+OverlapFWPrimer: 17
+OverlapRVPrimer: 21
+Q: 10
+Dorado: /path/dorado-1.3.0/bin/
+Cutadapt: /path/cutadapt/bin/
+CDHIT: /path/cdhit/bin/
+BLAST_DB: /path/BLAST_database/core_nt
+BLAST: /path/BLAST_2.17/bin/
+TargetTaxa: 33208 
+
+Will: Demultiplex using dorado 1.3.0, foll, filter for read length 800-2100 bp and quality score 10, cluster reads at 95% ID, make consensuses of clusters larger than 100 sequences, polish with Medaka.
 
 | Command | Function |
 | ------ | ------ |
