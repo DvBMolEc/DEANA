@@ -1,6 +1,6 @@
 # DEANA
 
-This pipeline is intended as decona 2.0, where ONT sequencing data is transformed into ASVs, instead of clustered into concensus sequences. The main functions are 1) demultiplexing, 2) trimming, 3) merging and 4) identifying species
+This pipeline is intended as decona 2.0, where ONT sequencing data is transformed into ASVs, instead of clustered into concensus sequences. The main functions are 1) demultiplexing (nanopore sequence data), 2) trimming (adaptbers/barcodes/primers), 3) merging (ASVs) and 4) identifying (species)
 
 **To Do Version 0.1**
 - Update pipeline functions
@@ -28,10 +28,10 @@ DEANA is sensitive to installation version of dependencies.
 DEANA works with the following sequence processing tools:
 | Tool | version |  function |
 | ------ | ------ | ------ |
+| NanoFilt | X.X | Filter reads based on Q-score |
 | dorado | 1.3.0 | Demulitplex ONT sequencing data |
 | dorado | 1.3.0 | Trim adapters and barcodes |
 | Cutadapt | X.X | Trim primer sequences |
-| NanoFilt | X.X | Filter reads based on Q-score |
 | CD-hit | X.X.X | Merge ASVs within samples |
 | Blast | X.X.X | Blast ASVs |
 
@@ -42,6 +42,8 @@ DEANA requires a .config file in your working directory which contains:
 DemuxKit: Kit name provided to dorado --kit-name
 CustomBarcodesSequences: In case of custom barcode sequences, .fa file provided to dorado --barcode-sequences [.fa file] [optional]
 CustomBarcodeArrangement: In case of custom barcode sequences, .toml file provided to dorado --barcode-arrangement [.toml file] [optional]
+MinimumLength: Minimum read length after adapter, barcode and primer trimming. [integer]
+MaximumLength: Maximum read length after adapter, barcode and primer trimming. [integer]
 FW: Sequence forward primer [ACTGWSMKRYBDHVN]
 RV: Sequence reverse primer REVERSE COMPLIMENT [ACTGWSMKRYBDHVN]
 ErrorRate: Error rate used for cutadapt [numerical between 0 and 1]
@@ -65,6 +67,8 @@ Where the .config file looks like the example:
 DemuxKit: MiFish_9bp_tags
 CustomBarcodesSequences: /path/MiFish_9bp_tags.fa
 CustomBarcodeArrangement: /path/MiFish_9bp_tags.toml
+MinimumLength: 150
+MaximumLength: 200
 FW: GTYGGTAAAWCTCGTGCCAGC
 RV: CAAACTRGGATTAGATACCCCACTAT
 ErrorRate: 0.1
@@ -76,36 +80,18 @@ Cutadapt: /path/cutadapt/bin/
 CDHIT: /path/cdhit/bin/
 BLAST_DB: /path/BLAST_database/core_nt
 BLAST: /path/BLAST_2.17/bin/
-TargetTaxa: 33208 
+TargetTaxa: 33208
+Threads: 24
 
-Will: Demultiplex using dorado 1.3.0, foll, filter for read length 800-2100 bp and quality score 10, cluster reads at 95% ID, make consensuses of clusters larger than 100 sequences, polish with Medaka.
+Will: Demultiplex a custom barcode kit using dorado 1.3.0, filter for read length 150-200 and quality score 10, trim primers and BLAST sequences in the core_nt database, only finding metazoans.
 
 | Command | Function |
 | ------ | ------ |
 | -h   | help |
-|  -v   | version|
-|  -T    | multithreading default 4 |
+|  -i   | input folder |
+|  -c    | path to the config file |
 |  -p    | plot readlength distribution histogram (plots then exits program)|
-|  -f    | folder structure: your fastq files are already demultiplexed and stored in barcode folders (such as output from Mk1C)|
-| Filtering: | |
-|  -d    | demultiplex |
-|  -q    | quality score |
-|  -l    | minimum length |
-|  -m    | maximum length |
-| Clustering | |
-|  -c    | clustering percentage (default 0.8 for 80% identity) |
-|  -w    | clustering wordlength (default 5) |
-|  -n    | clustersize (default 100) |
-|  -i    | gives info about % sequences assigned to clusters |
-|  -r    | re-cluster consensus sequences (use a second round of clustering)|
-|  -g    | clustering algorithm: 1 or 0 (default 1) |
-|       | If set to 1, the program will cluster reads into the most similar cluster that meets the threshold (accurate but slow mode)|
-|       | If set to 0 a sequence is clustered to the first cluster that meets the threshold (fast cluster)|
-| **-R**  | **Randomly subsample each clusters till maximum size of n (optional, not used by default)** |
-|  **-k**   | **set custom kmer length, short reads require smaller kmer length (default 15)** |
-| Polishing | |
-|  -M    | polish consensus with Medaka |
-|  -s    | snip/variant calling with Medaka |
+|  -f    | folder structure: your dat is already  demultiplexed and stored in barcode folders (such as output from Mk1C)|
 | BLAST | Optional, needs additional install: [NCBI BLAST+](https://www.ncbi.nlm.nih.gov/books/NBK52640/) |
 |  -B    | yourblastdatabase.fasta |
 |  -b    | /path/to/existing/blast/database/existing-data-base-file.fasta |
