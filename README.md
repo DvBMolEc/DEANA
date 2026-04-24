@@ -38,7 +38,7 @@ DEANA works with the following sequence processing tools:
 
 ## Usage
 **DEANA works on basecalled .bam files in your working directory.** It is a good idea to have an empty directory with just the files you want to run. A Demux folder will be made for demultiplexed data. 
-DEANA requires a .config file in your working directory which contains:
+DEANA requires a .config file in your working directory which contains.
 DemuxKit: Kit name provided to dorado --kit-name
 CustomBarcodesSequences: In case of custom barcode sequences, .fa file provided to dorado --barcode-sequences [.fa file] [optional]
 CustomBarcodeArrangement: In case of custom barcode sequences, .toml file provided to dorado --barcode-arrangement [.toml file] [optional]
@@ -92,6 +92,3 @@ Will: Demultiplex a custom barcode kit using dorado 1.3.0, filter for read lengt
 |  -c    | path to the config file |
 |  -p    | plot readlength distribution histogram (plots then exits program)|
 |  -f    | folder structure: your dat is already  demultiplexed and stored in barcode folders (such as output from Mk1C)|
-| BLAST | Optional, needs additional install: [NCBI BLAST+](https://www.ncbi.nlm.nih.gov/books/NBK52640/) |
-|  -B    | yourblastdatabase.fasta |
-|  -b    | /path/to/existing/blast/database/existing-data-base-file.fasta |
