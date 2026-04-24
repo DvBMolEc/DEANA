@@ -68,23 +68,41 @@ Example
 $ deana -i input_folder/input_file.bam -c /path/configfile.config
 ```
 Where the .config file looks like the example:
+
 DemuxKit: MiFish_9bp_tags
+
 CustomBarcodesSequences: /path/MiFish_9bp_tags.fa
+
 CustomBarcodeArrangement: /path/MiFish_9bp_tags.toml
+
 MinimumLength: 150
+
 MaximumLength: 200
+
 FW: GTYGGTAAAWCTCGTGCCAGC
+
 RV: CAAACTRGGATTAGATACCCCACTAT
+
 ErrorRate: 0.1
+
 OverlapFWPrimer: 17
+
 OverlapRVPrimer: 21
+
 Q: 10
+
 Dorado: /path/dorado-1.3.0/bin/
+
 Cutadapt: /path/cutadapt/bin/
+
 CDHIT: /path/cdhit/bin/
+
 BLAST_DB: /path/BLAST_database/core_nt
+
 BLAST: /path/BLAST_2.17/bin/
+
 TargetTaxa: 33208
+
 Threads: 24
 
 Will: Demultiplex a custom barcode kit using dorado 1.3.0, filter for read length 150-200 and quality score 10, trim primers and BLAST sequences in the core_nt database, only finding metazoans.
