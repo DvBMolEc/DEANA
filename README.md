@@ -95,23 +95,3 @@ Will: Demultiplex a custom barcode kit using dorado 1.3.0, filter for read lengt
 | BLAST | Optional, needs additional install: [NCBI BLAST+](https://www.ncbi.nlm.nih.gov/books/NBK52640/) |
 |  -B    | yourblastdatabase.fasta |
 |  -b    | /path/to/existing/blast/database/existing-data-base-file.fasta |
-
-## Warning
-**Selecting the right stringency for the clustering setting is very important.** If it is set too low, species will be clustered together; if it is set too high, species will be lost as more singletons emerge. R9 and R10 data absolutely require different stringencies. Genetic markers with more or less genetic variation will also need to be clustered with higher or lower stringency. **It is advisable to conduct several small runs to determine the appropriate level of stringency for your amplicon.**
-
-<img src="https://github.com/Saskia-Oosterbroek/decona/blob/master/cluster_settings.jpg" width="400" />
-Comparison of DECONA cluster settings for two mitochondrial amplicons. The MiFish amplicon a ~ 170 bp fragment of the 12S rRNA gene and the 2Kb long amplicon partly covering 2Kb of the 12S & 16S rRNA gene.
-The figure shows the number of unique species, clusters and the number of reads remaining when setting a certain minimal q‐score (Q 8 - 20) in combination with different minimal % identity thresholds for clusters (80 – 100%).  (A & B) Number of unique species, (C & D) number of unique clusters (E & F) the amount of reads that remain with each combination of minimal q‐score and clustering percentage.
-
-*(This is figure 3 from our paper "The Long and the Short of It: Nanopore-Based eDNA Metabarcoding of Marine Vertebrates Works; Sensitivity and Species-Level Assignment Depend on Amplicon Lengths"
- DOI <a href="http://doi.org/10.1111/1755-0998.14079">10.1111/1755-0998.14079</a> )*
-
-
-## Running Decona on the example data
-
-To run Decona on the example data:
-```sh
-decona -f -l 800 -m 2100 -q 10 -c 0.80 -n 25 -M -i ~/computer/work_dir/example_data/
-```
-from within the directory `example_data/`. It will generate output in the directory `data/`.
-
