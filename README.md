@@ -35,7 +35,7 @@ DEANA works with the following sequence processing tools:
 | dorado | 1.3.0 | Demulitplex ONT sequencing data |
 | dorado | 1.3.0 | Trim adapters and barcodes |
 | Cutadapt | X.X | Trim primer sequences |
-| CD-hit | X.X.X | Merge ASVs within samples |
+| VSEARCH | X.X.X | Merge ASVs within samples |
 | Blast | X.X.X | Blast ASVs |
 
 
