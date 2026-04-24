@@ -1,5 +1,8 @@
 # DEANA
 
+WORK IN PROGRESS, CURRENTLY NOT INTENDED FOR PERSONAL USE
+
+
 This pipeline is intended as decona 2.0, where ONT sequencing data is transformed into ASVs, instead of clustered into concensus sequences. The main functions are 1) demultiplexing (nanopore sequence data), 2) trimming (adaptbers/barcodes/primers), 3) merging (ASVs) and 4) identifying (species)
 
 **To Do Version 0.1**
