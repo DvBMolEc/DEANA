@@ -17,7 +17,7 @@ DEANA can process multiple samples in one line of code:
 - Multiple samples in one run
 - Outputs ASVs, corresponding read counts and corresponding species identifications
 
-<img src="https://github.com/DvBMolEc/DEANA/blob/master/FlowChart_DEANA_20260423.png" width="600" />
+<img src="https://github.com/DvBMolEc/DEANA/blob/main/FlowChart_DEANA_20260423.png" width="600" />
 
 ## Installation
 DEANA is only supported for use with Linux, the Ubuntu command line app for Windows also works but is recommended only for use with smaller datasets.
