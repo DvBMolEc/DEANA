@@ -59,7 +59,7 @@ DEANA requires a .config file in your working directory which contains:
 | Q | minimum Q-score | integer | No |
 | Dorado | /path/dorado/bin/ | Any path | No |
 | Cutadapt | /path/cutadapt/bin/ | Any path | No |
-| CDHIT | /path/cdhit/bin/ | Any path | No | 
+| VSEARCH | /path/VSEARCH/bin/ | Any path | No | 
 | BLAST_DB | /path/BLAST_database/name | Any path | No |
 | BLAST | /path/BLAST/bin/ | Any path | No |
 | TargetTaxa | Only BLAST target taxa | integer | Yes, requires BLAST version 2.15+ |
@@ -98,7 +98,7 @@ Dorado: /path/dorado-1.3.0/bin/
 
 Cutadapt: /path/cutadapt/bin/
 
-CDHIT: /path/cdhit/bin/
+VSEARCH: /path/vsearch/bin/
 
 BLAST_DB: /path/BLAST_database/core_nt
 
