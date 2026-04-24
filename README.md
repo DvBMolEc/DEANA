@@ -38,25 +38,29 @@ DEANA works with the following sequence processing tools:
 
 ## Usage
 **DEANA works on basecalled .bam files in your working directory.** It is a good idea to have an empty directory with just the files you want to run. A Demux folder will be made for demultiplexed data. 
-DEANA requires a .config file in your working directory which contains.
-DemuxKit: Kit name provided to dorado --kit-name
-CustomBarcodesSequences: In case of custom barcode sequences, .fa file provided to dorado --barcode-sequences [.fa file] [optional]
-CustomBarcodeArrangement: In case of custom barcode sequences, .toml file provided to dorado --barcode-arrangement [.toml file] [optional]
-MinimumLength: Minimum read length after adapter, barcode and primer trimming. [integer]
-MaximumLength: Maximum read length after adapter, barcode and primer trimming. [integer]
-FW: Sequence forward primer [ACTGWSMKRYBDHVN]
-RV: Sequence reverse primer REVERSE COMPLIMENT [ACTGWSMKRYBDHVN]
-ErrorRate: Error rate used for cutadapt [numerical between 0 and 1]
-OverlapFWPrimer: Minimum nt found by cutadapt in FW primer [numerical]
-OverlapRVPrimer: Minimum nt found by cutadapt in RV primer [numerical]
-Q: minimum Q-score [integer]
-Dorado: /path/dorado/bin/
-Cutadapt: /path/cutadapt/bin/
-CDHIT: /path/cdhit/bin/
-BLAST_DB: /path/BLAST_database/name
-BLAST: /path/BLAST/bin/
-TargetTaxa: Flag to only BLAST for target taxa [integer] (requires BLAST version 2.15+)
-THREADS: allow multithreading to this number of threads [integer, default = 4]
+DEANA requires a .config file in your working directory which contains:
+
+
+| Variable | Description | Allowed value(s) | Optional? |
+| ------ | ------ | ------ | ------ |
+| DemuxKit | Kit name provided to dorado --kit-name | SQK-LSK114 or Custom names | No |
+| CustomBarcodesSequences | In case of custom barcode sequences, .fa file provided to dorado --barcode-sequences | .fa file | Yes |
+| CustomBarcodeArrangement | In case of custom barcode sequences, .toml file provided to dorado --barcode-arrangement | .toml file | Yes |
+| MinimumLength | Minimum read length after adapter, barcode and primer trimming. | integer | No |
+| MaximumLength | Maximum read length after adapter, barcode and primer trimming. | integer | No |
+| FWPrimer | Sequence forward primer | ACTGWSMKRYBDHVN | No |
+| RVPrimer | Sequence reverse primer REVERSE COMPLIMENT | ACTGWSMKRYBDHVN | No |
+| ErrorRate | Error rate used for cutadapt | numerical between 0 and 1 | No |
+| OverlapFWPrimer | Minimum nt found by cutadapt in FW primer | numerical | No |
+| OverlapRVPrimer | Minimum nt found by cutadapt in RV primer | numerical | No |
+| Q | minimum Q-score | integer | No |
+| Dorado | /path/dorado/bin/ | Any path | No |
+| Cutadapt | /path/cutadapt/bin/ | Any path | No |
+| CDHIT | /path/cdhit/bin/ | Any path | No | 
+| BLAST_DB | /path/BLAST_database/name | Any path | No |
+| BLAST | /path/BLAST/bin/ | Any path | No |
+| TargetTaxa | Only BLAST target taxa | integer | Yes, requires BLAST version 2.15+ |
+| THREADS | allow multithreading to this number of threads | integer | Yes, default = 4 |
 
 
 Example
